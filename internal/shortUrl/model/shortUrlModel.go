@@ -7,6 +7,10 @@ type BothUrls struct {
 	OriginalUrl string
 }
 
+type OriginalUrl struct {
+	Url string `json:"url"`
+}
+
 type SaveOriginalUrlResponse struct {
 	Status   uint   `json:"status"`
 	ShortUrl string `json:"shortUrl"`

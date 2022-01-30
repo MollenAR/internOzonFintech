@@ -54,7 +54,7 @@ func (shUrlUsecase *shortUrlUsecase) GetOriginalUrl(ctx context.Context, shortUr
 	}
 
 	response := model.GetOriginalUrlResponse{
-		Status:   http.StatusOK,
+		Status:      http.StatusOK,
 		OriginalUrl: originalUrl,
 	}
 

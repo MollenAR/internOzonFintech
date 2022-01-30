@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/model"
+	"github.com/MollenAR/internOzonFintech/internal/tools/validation"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -17,16 +18,19 @@ func NewShortUrlHandler(shurlUsecase model.ShortUrlUsecase) *ShortUrlHandler {
 }
 
 func (shurlHandler *ShortUrlHandler) SaveOriginalUrl(c echo.Context) error {
-	var originalUrl string
+	originalUrl := new(model.OriginalUrl)
 	err := c.Bind(originalUrl)
 	if err != nil {
 		// todo errors
 	}
 
-	// todo validation
+	err = validation.ValidateOriginalUrl(originalUrl.Url)
+	if err != nil {
+		// todo errors
+	}
 
 	ctx := c.Request().Context()
-	response, err := shurlHandler.ShortUrlUsecase.SaveOriginalUrl(ctx, originalUrl)
+	response, err := shurlHandler.ShortUrlUsecase.SaveOriginalUrl(ctx, originalUrl.Url)
 	if err != nil {
 		// todo errors
 	}
@@ -35,13 +39,12 @@ func (shurlHandler *ShortUrlHandler) SaveOriginalUrl(c echo.Context) error {
 }
 
 func (shurlHandler *ShortUrlHandler) GetOriginalUrl(c echo.Context) error {
-	var shortlUrl string
-	err := c.Bind(shortlUrl)
+	shortlUrl := c.Param("shortUrl")
+
+	err := validation.ValidateShortUrl(shortlUrl)
 	if err != nil {
 		// todo errors
 	}
-
-	// todo validation
 
 	ctx := c.Request().Context()
 	response, err := shurlHandler.ShortUrlUsecase.GetOriginalUrl(ctx, shortlUrl)
