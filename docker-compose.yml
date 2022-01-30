@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+
+  postgerDB:
+    image: postgres:latest
+    container_name: shortUrlPostgresDB
+    environment:
+      - POSTGRES_PASSWORD=qwer1111
+      - POSTGRES_USER=qwer
+      - POSTGRES_DB=shorturl
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres-data:/var/lib/postgresql

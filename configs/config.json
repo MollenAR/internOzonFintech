@@ -1,0 +1,18 @@
+{
+  "server" : {
+    "address" : "localhost",
+    "port" : "8081"
+  },
+  "tarantool" : {
+    "user" : "admin",
+    "pass" : "pass",
+    "addr" : ":3302"
+  },
+  "postgres" : {
+    "user" : "qwer",
+    "dbname" : "short_url_db",
+    "password" : "qwer1111",
+    "port" : "5432",
+    "sslmode" : "disable"
+  }
+}
