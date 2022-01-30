@@ -3,7 +3,9 @@ package usecase
 import (
 	"context"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/model"
+	"github.com/MollenAR/internOzonFintech/internal/tools/errorTypes"
 	gonanoid "github.com/matoous/go-nanoid"
+	"github.com/pkg/errors"
 	"net/http"
 )
 
@@ -23,8 +25,9 @@ func NewShortUrlUsecase(shurlRepo model.ShortUrlRepository) model.ShortUrlUsecas
 func (shUrlUsecase *shortUrlUsecase) SaveOriginalUrl(ctx context.Context, originalUrl string) (model.SaveOriginalUrlResponse, error) {
 	shortUrl, err := gonanoid.Generate(alphabet, shortUrlSize)
 	if err != nil {
-		// todo error handle
-		return model.SaveOriginalUrlResponse{}, err
+		return model.SaveOriginalUrlResponse{}, errorTypes.ErrTryAgainLater{
+			Reason: err.Error(),
+		}
 	}
 
 	bothUrls := model.BothUrls{
@@ -34,8 +37,7 @@ func (shUrlUsecase *shortUrlUsecase) SaveOriginalUrl(ctx context.Context, origin
 
 	err = shUrlUsecase.shortUrlRepo.SaveOriginalUrl(ctx, bothUrls)
 	if err != nil {
-		// todo error handle
-		return model.SaveOriginalUrlResponse{}, err
+		return model.SaveOriginalUrlResponse{}, errors.Wrap(err, "")
 	}
 
 	response := model.SaveOriginalUrlResponse{
@@ -49,8 +51,7 @@ func (shUrlUsecase *shortUrlUsecase) SaveOriginalUrl(ctx context.Context, origin
 func (shUrlUsecase *shortUrlUsecase) GetOriginalUrl(ctx context.Context, shortUrl string) (model.GetOriginalUrlResponse, error) {
 	originalUrl, err := shUrlUsecase.shortUrlRepo.GetOriginalUrl(ctx, shortUrl)
 	if err != nil {
-		// todo error handle
-		return model.GetOriginalUrlResponse{}, err
+		return model.GetOriginalUrlResponse{}, errors.Wrap(err, "")
 	}
 
 	response := model.GetOriginalUrlResponse{

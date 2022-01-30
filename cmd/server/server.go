@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/MollenAR/internOzonFintech/internal/middleware/addId"
+	"github.com/MollenAR/internOzonFintech/internal/middleware/errorHandler"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/handler"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/repository/postgreSQL"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/usecase"
@@ -20,6 +21,7 @@ func Run(addres string) error {
 	shortUrlHandler := handler.NewShortUrlHandler(shortUrlUsecase)
 
 	e.Use(addId.AddId)
+	e.HTTPErrorHandler = errorHandler.ErrorHandler
 
 	e.POST("/save", shortUrlHandler.SaveOriginalUrl)
 	e.GET("/get/:shortUrl", shortUrlHandler.GetOriginalUrl)
