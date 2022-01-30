@@ -16,3 +16,11 @@ services:
     volumes:
       - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./postgres-data:/var/lib/postgresql
+
+  tarantool:
+    image: short_url:latest
+    expose:
+      - 3302
+    ports:
+      - 3302:3302
+    container_name: ShortUrlTarantool

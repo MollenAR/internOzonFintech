@@ -27,6 +27,6 @@ type ShortUrlUsecase interface {
 }
 
 type ShortUrlRepository interface {
-	SaveOriginalUrl(ctx context.Context, bothUrls BothUrls) error
+	SaveOriginalUrl(ctx context.Context, originalUrl string) (string, error)
 	GetOriginalUrl(crx context.Context, shortUrl string) (string, error)
 }
