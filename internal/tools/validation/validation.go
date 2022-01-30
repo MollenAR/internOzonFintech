@@ -6,8 +6,11 @@ import (
 	"regexp"
 )
 
+const maxLength = 2048
+const minLength = 2
+
 func ValidateOriginalUrl(originalUrl string) error {
-	err := validation.Validate(originalUrl, validation.Required, is.URL)
+	err := validation.Validate(originalUrl, validation.Required, validation.Length(minLength, maxLength), is.URL)
 	if err != nil {
 		// todo errors
 		return err
