@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/MollenAR/internOzonFintech/cmd/server"
+	"github.com/MollenAR/internOzonFintech/configs"
+	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 )
@@ -10,7 +13,26 @@ import (
 func main() {
 	fmt.Println("start")
 
-	if err := server.Run("localhost:8080"); err != http.ErrServerClosed {
+	psqlCredentials, err := configs.PostgresConfig()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	psqldb, err := sqlx.Open("postgres", psqlCredentials)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	err = psqldb.Ping()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	serverAddres, err := configs.AddresConfig()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	if err := server.Run(serverAddres, psqldb); err != http.ErrServerClosed {
 		log.Fatal(err.Error())
 	}
 }

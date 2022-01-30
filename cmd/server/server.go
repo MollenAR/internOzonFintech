@@ -12,21 +12,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func Run(addres string) error {
-	config := "user=qwer dbname=shorturl password=qwer1111 host=localhost sslmode=disable"
-	db, err := sqlx.Open("postgres", config)
-	if err != nil {
-
-	}
-	err = db.Ping()
-	if err != nil {
-
-	}
-
+func Run(addres string, psqlDb *sqlx.DB) error {
 	e := echo.New()
 	e.Use(middleware.Recover())
 
-	psqlRepo := postgreSQL.NewPsqlRepo()
+	psqlRepo := postgreSQL.NewPsqlRepo(psqlDb)
 
 	shortUrlUsecase := usecase.NewShortUrlUsecase(psqlRepo)
 

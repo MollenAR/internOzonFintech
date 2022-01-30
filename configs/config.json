@@ -1,7 +1,7 @@
 {
   "server" : {
     "address" : "localhost",
-    "port" : "8081"
+    "port" : "8080"
   },
   "tarantool" : {
     "user" : "admin",
@@ -10,9 +10,9 @@
   },
   "postgres" : {
     "user" : "qwer",
-    "dbname" : "short_url_db",
+    "dbname" : "shorturl",
     "password" : "qwer1111",
-    "port" : "5432",
+    "host" : "localhost",
     "sslmode" : "disable"
   }
 }
