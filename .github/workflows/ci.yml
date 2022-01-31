@@ -28,4 +28,4 @@ jobs:
       - name: Push to Dockerhub
         run: sudo docker push mollenar/short_url_main_psql &&
           sudo docker push mollenar/short_url_main_tarantool &&
-          sudo docker push mollenar/short_url_tarantool &&
+          sudo docker push mollenar/short_url_tarantool
