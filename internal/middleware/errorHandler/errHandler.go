@@ -19,10 +19,10 @@ func ErrorHandler(err error, c echo.Context) {
 	switch {
 	case errors.As(err, &errorTypes.ErrTryAgainLater{}):
 		response.Msg = "Возникла ошибка при обработке вашего запроса, попробуйте еще раз через несколько минут"
-		response.Status = http.StatusOK
+		response.Status = http.StatusInternalServerError
 
 	case errors.As(err, &errorTypes.ErrWrongUsage{}):
-		response.Msg = "Неверное использование сервиса, проверьте поля запроса"
+		response.Msg = "Неверное использование сервиса, проверьте тело запроса"
 		response.Status = http.StatusUnprocessableEntity
 
 	case errors.As(err, &errorTypes.ErrWrongOriginalUrl{}):
