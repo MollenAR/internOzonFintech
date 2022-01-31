@@ -38,8 +38,6 @@ func ErrorHandler(err error, c echo.Context) {
 		response.Status = http.StatusInternalServerError
 	}
 
-	// todo logger
-
 	c.Logger().Error(err.Error())
 	errJson := c.JSON(response.Status, response)
 	if errJson != nil {

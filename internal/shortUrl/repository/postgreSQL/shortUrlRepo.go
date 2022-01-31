@@ -58,11 +58,16 @@ func (shurlRepo *shortUrlPsqlRepo) SaveOriginalUrl(ctx context.Context, original
 	return shortUrl, nil
 }
 
-func (shurlRepo *shortUrlPsqlRepo) GetOriginalUrl(crx context.Context, shortUrl string) (string, error) {
+func (shurlRepo *shortUrlPsqlRepo) GetOriginalUrl(ctx context.Context, shortUrl string) (string, error) {
 	schema := `SELECT original_url FROM urls WHERE short_url = $1`
 	var originalUrl string
 
 	err := shurlRepo.Db.Get(&originalUrl, schema, shortUrl)
+	if err == sql.ErrNoRows {
+		return "", errorTypes.ErrWrongShortUrl{
+			Reason: err.Error(),
+		}
+	}
 	if err != nil {
 		return "", errorTypes.ErrTryAgainLater{
 			Reason: err.Error(),
