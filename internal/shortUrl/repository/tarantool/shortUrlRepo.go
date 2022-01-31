@@ -61,7 +61,7 @@ func (shurlRepo *shortUrlTarantoolRepo) GetOriginalUrl(crx context.Context, shor
 	}
 
 	if len(resp.Data) == 0 {
-		return "", errorTypes.ErrWrongOriginalUrl{
+		return "", errorTypes.ErrWrongShortUrl{
 			Reason: "no original Url fund in tarantool bd"}
 	}
 
