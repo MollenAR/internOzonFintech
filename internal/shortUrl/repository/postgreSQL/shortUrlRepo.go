@@ -3,6 +3,7 @@ package postgreSQL
 import (
 	"context"
 	"database/sql"
+
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/model"
 	"github.com/MollenAR/internOzonFintech/internal/tools/errorTypes"
 	"github.com/jmoiron/sqlx"
@@ -28,7 +29,7 @@ func (shurlRepo *shortUrlPsqlRepo) SaveOriginalUrl(ctx context.Context, original
 	schema := `SELECT short_url FROM urls WHERE original_url = $1`
 	err := shurlRepo.Db.Get(&shortUrl, schema, originalUrl)
 
-	if err != nil && err != sql.ErrNoRows{
+	if err != nil && err != sql.ErrNoRows {
 		return "", errorTypes.ErrTryAgainLater{
 			Reason: err.Error(),
 		}

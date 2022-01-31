@@ -1,12 +1,13 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/model"
 	"github.com/MollenAR/internOzonFintech/internal/tools/errorTypes"
 	"github.com/MollenAR/internOzonFintech/internal/tools/validation"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
-	"net/http"
 )
 
 type ShortUrlHandler struct {

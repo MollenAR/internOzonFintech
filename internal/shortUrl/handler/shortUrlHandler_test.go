@@ -17,8 +17,8 @@ func TestGetOriginalUrl(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		mockUsecase := &mocks.ShortUrlUsecase{}
 		mockUsecase.On("GetOriginalUrl",
-		mock.AnythingOfType("*context.emptyCtx"),
-		mock.AnythingOfType("string")).Return(model.GetOriginalUrlResponse{}, nil)
+			mock.AnythingOfType("*context.emptyCtx"),
+			mock.AnythingOfType("string")).Return(model.GetOriginalUrlResponse{}, nil)
 
 		testHandler := NewShortUrlHandler(mockUsecase)
 		e := echo.New()
@@ -36,8 +36,8 @@ func TestGetOriginalUrl(t *testing.T) {
 	t.Run("validate length fail", func(t *testing.T) {
 		mockUsecase := &mocks.ShortUrlUsecase{}
 		mockUsecase.On("GetOriginalUrl",
-		mock.AnythingOfType("*context.emptyCtx"),
-		mock.AnythingOfType("string")).Return(model.GetOriginalUrlResponse{}, nil)
+			mock.AnythingOfType("*context.emptyCtx"),
+			mock.AnythingOfType("string")).Return(model.GetOriginalUrlResponse{}, nil)
 
 		testHandler := NewShortUrlHandler(mockUsecase)
 		e := echo.New()
@@ -57,8 +57,8 @@ func TestGetOriginalUrl(t *testing.T) {
 	t.Run("validate alphabet fail", func(t *testing.T) {
 		mockUsecase := &mocks.ShortUrlUsecase{}
 		mockUsecase.On("GetOriginalUrl",
-		mock.AnythingOfType("*context.emptyCtx"),
-		mock.AnythingOfType("string")).Return(model.GetOriginalUrlResponse{}, nil)
+			mock.AnythingOfType("*context.emptyCtx"),
+			mock.AnythingOfType("string")).Return(model.GetOriginalUrlResponse{}, nil)
 
 		testHandler := NewShortUrlHandler(mockUsecase)
 		e := echo.New()
@@ -78,8 +78,8 @@ func TestGetOriginalUrl(t *testing.T) {
 	t.Run("validate empty fail", func(t *testing.T) {
 		mockUsecase := &mocks.ShortUrlUsecase{}
 		mockUsecase.On("GetOriginalUrl",
-		mock.AnythingOfType("*context.emptyCtx"),
-		mock.AnythingOfType("string")).Return(model.GetOriginalUrlResponse{}, nil)
+			mock.AnythingOfType("*context.emptyCtx"),
+			mock.AnythingOfType("string")).Return(model.GetOriginalUrlResponse{}, nil)
 
 		testHandler := NewShortUrlHandler(mockUsecase)
 		e := echo.New()
@@ -101,8 +101,8 @@ func TestSaveOriginalUrl(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		mockUsecase := &mocks.ShortUrlUsecase{}
 		mockUsecase.On("SaveOriginalUrl",
-		mock.AnythingOfType("*context.emptyCtx"),
-		mock.AnythingOfType("string")).Return(model.SaveOriginalUrlResponse{}, nil)
+			mock.AnythingOfType("*context.emptyCtx"),
+			mock.AnythingOfType("string")).Return(model.SaveOriginalUrlResponse{}, nil)
 
 		testHandler := NewShortUrlHandler(mockUsecase)
 		e := echo.New()
@@ -142,7 +142,7 @@ func TestSaveOriginalUrl(t *testing.T) {
 
 		err := testHandler.SaveOriginalUrl(c)
 		if assert.Error(t, err) {
-			assert.Equal(t, errorTypes.ErrWrongOriginalUrl{Reason:": must be a valid URL"}, err)
+			assert.Equal(t, errorTypes.ErrWrongOriginalUrl{Reason: ": must be a valid URL"}, err)
 		}
 	})
 
@@ -167,7 +167,7 @@ func TestSaveOriginalUrl(t *testing.T) {
 
 		err := testHandler.SaveOriginalUrl(c)
 		if assert.Error(t, err) {
-			assert.Equal(t, errorTypes.ErrWrongOriginalUrl{Reason:": cannot be blank"}, err)
+			assert.Equal(t, errorTypes.ErrWrongOriginalUrl{Reason: ": cannot be blank"}, err)
 		}
 	})
 }

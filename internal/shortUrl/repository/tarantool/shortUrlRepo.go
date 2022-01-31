@@ -22,7 +22,7 @@ func NewTarantoolRepo(tarantoolConn *tarantool.Connection) model.ShortUrlReposit
 	}
 }
 
-func (shurlRepo *shortUrlTarantoolRepo)SaveOriginalUrl(ctx context.Context, originalUrl string) (string, error) {
+func (shurlRepo *shortUrlTarantoolRepo) SaveOriginalUrl(ctx context.Context, originalUrl string) (string, error) {
 	resp, err := shurlRepo.Db.Select("urls", "secondary", 0, 1, tarantool.IterEq, []interface{}{originalUrl})
 	if err != nil {
 		return "", errorTypes.ErrTryAgainLater{
@@ -52,7 +52,7 @@ func (shurlRepo *shortUrlTarantoolRepo)SaveOriginalUrl(ctx context.Context, orig
 	return shortUrl, nil
 }
 
-func (shurlRepo *shortUrlTarantoolRepo)GetOriginalUrl(crx context.Context, shortUrl string) (string, error) {
+func (shurlRepo *shortUrlTarantoolRepo) GetOriginalUrl(crx context.Context, shortUrl string) (string, error) {
 	resp, err := shurlRepo.Db.Select("urls", "primary", 0, 1, tarantool.IterEq, []interface{}{shortUrl})
 	if err != nil {
 		return "", errorTypes.ErrTryAgainLater{

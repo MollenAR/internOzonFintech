@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/MollenAR/internOzonFintech/internal/middleware/accessLogger"
 	"github.com/MollenAR/internOzonFintech/internal/middleware/addId"
 	"github.com/MollenAR/internOzonFintech/internal/middleware/errorHandler"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/handler"
@@ -9,7 +10,6 @@ import (
 	tRepo "github.com/MollenAR/internOzonFintech/internal/shortUrl/repository/tarantool"
 	"github.com/pkg/errors"
 
-	// "github.com/MollenAR/internOzonFintech/internal/shortUrl/repository/postgreSQL"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/usecase"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
@@ -38,6 +38,7 @@ func Run(addres string, dbConn interface{}) error {
 
 	shortUrlHandler := handler.NewShortUrlHandler(shortUrlUsecase)
 
+	e.Use(accessLogger.AccessLogger)
 	e.Use(addId.AddId)
 	e.HTTPErrorHandler = errorHandler.ErrorHandler
 

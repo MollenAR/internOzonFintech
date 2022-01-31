@@ -1,15 +1,16 @@
 package errorHandler
 
 import (
+	"net/http"
+
 	"github.com/MollenAR/internOzonFintech/internal/tools/errorTypes"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
-	"net/http"
 )
 
 type errResponse struct {
-	Status int `json:"status"`
-	Msg string `json:"msg"`
+	Status int    `json:"status"`
+	Msg    string `json:"msg"`
 }
 
 func ErrorHandler(err error, c echo.Context) {

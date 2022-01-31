@@ -12,12 +12,12 @@ type OriginalUrl struct {
 }
 
 type SaveOriginalUrlResponse struct {
-	Status   int   `json:"status"`
+	Status   int    `json:"status"`
 	ShortUrl string `json:"shortUrl"`
 }
 
 type GetOriginalUrlResponse struct {
-	Status      int   `json:"status"`
+	Status      int    `json:"status"`
 	OriginalUrl string `json:"originalUrl"`
 }
 

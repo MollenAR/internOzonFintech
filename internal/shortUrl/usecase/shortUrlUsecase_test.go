@@ -15,8 +15,8 @@ func TestSaveOriginalUrl(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		mockRepo := &mocks.ShortUrlRepository{}
 		mockRepo.On("SaveOriginalUrl",
-		mock.AnythingOfType("*context.emptyCtx"),
-		mock.AnythingOfType("string")).Return("qwerUNB12_", nil)
+			mock.AnythingOfType("*context.emptyCtx"),
+			mock.AnythingOfType("string")).Return("qwerUNB12_", nil)
 
 		testUsecase := NewShortUrlUsecase(mockRepo)
 
@@ -32,8 +32,8 @@ func TestSaveOriginalUrl(t *testing.T) {
 	t.Run("fail", func(t *testing.T) {
 		mockRepo := &mocks.ShortUrlRepository{}
 		mockRepo.On("SaveOriginalUrl",
-		mock.AnythingOfType("*context.emptyCtx"),
-		mock.AnythingOfType("string")).Return("", errors.New("test error"))
+			mock.AnythingOfType("*context.emptyCtx"),
+			mock.AnythingOfType("string")).Return("", errors.New("test error"))
 
 		testUsecase := NewShortUrlUsecase(mockRepo)
 

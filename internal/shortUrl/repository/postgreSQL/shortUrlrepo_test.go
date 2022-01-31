@@ -17,7 +17,7 @@ func TestGetOriginalUrl(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	testRepo :=NewPsqlRepo(db)
+	testRepo := NewPsqlRepo(db)
 
 	t.Run("succes", func(t *testing.T) {
 		rows := sqlxmock.NewRows([]string{"original_url"}).AddRow("ozon.ru/fen")
@@ -50,7 +50,7 @@ func TestSaveOriginalUrl(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	testRepo :=NewPsqlRepo(db)
+	testRepo := NewPsqlRepo(db)
 
 	t.Run("success, original url already exits", func(t *testing.T) {
 		rows := sqlxmock.NewRows([]string{"short_url"}).AddRow("9csUIp8_nM")

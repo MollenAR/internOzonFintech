@@ -2,9 +2,10 @@ package usecase
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/model"
 	"github.com/pkg/errors"
-	"net/http"
 )
 
 type shortUrlUsecase struct {
