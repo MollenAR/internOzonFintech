@@ -1,0 +1,31 @@
+name: short Url ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkot code
+        uses: actions/checkout@v2
+
+      - name: Login to Dockerhub
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_LOGIN }} --password-stdin
+
+      - name: Docker build
+        run: sudo docker build -t mollenar/short_url_main_tarantool:${{GITHUB_SHA::8}} -f ./docker/main/main_tarantool.Dockerfile . &&
+        sudo docker build -t mollenar/short_url_main_psql:${{GITHUB_SHA::8}} -f ./docker/main/main_psql.Dockerfile . &&
+        sudo docker build -t mollenar/short_url_tarantool:${{GITHUB_SHA::8}} ./docker/tarantool/. &&
+        sudo docker tag mollenar/short_url_main_psql:${{GITHUB_SHA::8}} mollenar/short_url_main_psql:latest &&
+        sudo docker tag mollenar/short_url_main_tarantool:${{GITHUB_SHA::8}} mollenar/short_url_main_tarantool:latest &&
+        sudo docker tag mollenar/short_url_tarantool:${{GITHUB_SHA::8}} mollenar/short_url_tarantool:latest
+
+      - name: Push to Dockerhub
+        run: sudo docker push mollenar/short_url_main_psql &&
+        sudo docker push mollenar/short_url_main_tarantool &&
+        sudo docker push mollenar/short_url_tarantool &&
