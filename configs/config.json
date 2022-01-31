@@ -1,7 +1,8 @@
 {
   "server" : {
     "address" : "localhost",
-    "port" : "8080"
+    "psql_port" : "8080",
+    "tarantool_port" : "8081"
   },
   "tarantool" : {
     "user" : "admin",

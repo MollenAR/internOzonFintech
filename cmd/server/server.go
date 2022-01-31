@@ -4,7 +4,11 @@ import (
 	"github.com/MollenAR/internOzonFintech/internal/middleware/addId"
 	"github.com/MollenAR/internOzonFintech/internal/middleware/errorHandler"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/handler"
+	"github.com/MollenAR/internOzonFintech/internal/shortUrl/model"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/repository/postgreSQL"
+	tRepo "github.com/MollenAR/internOzonFintech/internal/shortUrl/repository/tarantool"
+	"github.com/pkg/errors"
+
 	// "github.com/MollenAR/internOzonFintech/internal/shortUrl/repository/postgreSQL"
 	"github.com/MollenAR/internOzonFintech/internal/shortUrl/usecase"
 	"github.com/jmoiron/sqlx"
@@ -14,15 +18,25 @@ import (
 	"github.com/tarantool/go-tarantool"
 )
 
-func Run(addres string, psqlDb *sqlx.DB, tarantoolConn *tarantool.Connection) error {
+func Run(addres string, dbConn interface{}) error {
 	e := echo.New()
 	e.Use(middleware.Recover())
 
-	psqlRepo := postgreSQL.NewPsqlRepo(psqlDb)
-	// tarantoolRepo := tRepo.NewTarantoolRepo(tarantoolConn)
+	var chosenRepo model.ShortUrlRepository
 
-	shortUrlUsecase := usecase.NewShortUrlUsecase(psqlRepo)
-	// shortUrlUsecase := usecase.NewShortUrlUsecase(tarantoolRepo)
+	switch dbConn.(type) {
+	case *tarantool.Connection:
+		chosenRepo = tRepo.NewTarantoolRepo(dbConn.(*tarantool.Connection))
+
+	case *sqlx.DB:
+		chosenRepo = postgreSQL.NewPsqlRepo(dbConn.(*sqlx.DB))
+	default:
+		return errors.New("wrong bd type")
+	}
+	// chosenRepo := postgreSQL.NewPsqlRepo(psqlDb)
+	// chosenRepo := tRepo.NewTarantoolRepo(tarantoolConn)
+
+	shortUrlUsecase := usecase.NewShortUrlUsecase(chosenRepo)
 
 	shortUrlHandler := handler.NewShortUrlHandler(shortUrlUsecase)
 

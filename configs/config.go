@@ -1,8 +1,11 @@
 package configs
 
 import (
+	"flag"
 	"github.com/spf13/viper"
 )
+
+const BdTarantool = true
 
 func PostgresConfig() (string, error) {
 	viper.SetConfigName("config")
@@ -23,19 +26,29 @@ func PostgresConfig() (string, error) {
 	return "user=" + user + " dbname=" + dbname + " password=" + password + " host=" + host + " sslmode=" + sslmode, nil
 }
 
-func AddresConfig() (string, error) {
+func ServerConfig() (string, bool, error) {
+	bdType := flag.Bool("m", false, "использовать базу данных tarantool, иначе postgresql")
+	flag.Parse()
+
 	viper.SetConfigName("config")
 	viper.AddConfigPath("./configs")
 	viper.SetConfigType("json")
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		return "", err
+		return "", false, err
+	}
+
+	var port string
+	switch {
+	case *bdType == BdTarantool:
+		port = viper.GetString("server.tarantool_port")
+	default:
+		port = viper.GetString("server.psql_port")
 	}
 
 	address := viper.GetString("server.address")
-	port := viper.GetString("server.port")
-	return address + ":" + port, nil
+	return address + ":" + port, *bdType, nil
 }
 
 func TarantoolConfig() (string, string, string, error) {
