@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Login to Dockerhub
-        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKERHUB_LOGIN }} --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | sudo docker login -u ${{ secrets.DOCKERHUB_LOGIN }} --password-stdin
 
       - name: Docker build
         run: sudo docker build -t mollenar/short_url_main_tarantool:${GITHUB_SHA::8} -f ./docker/main/main_tarantool.Dockerfile . &&
