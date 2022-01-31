@@ -8,10 +8,19 @@ on:
     branches:
       - main
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run test and check coverage
+        run: go test -coverpkg=./... -coverprofile=cover ./... && cat cover | grep -v "mock" > cover.out && go tool cover -func=cover.out
+
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkot code
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Login to Dockerhub
