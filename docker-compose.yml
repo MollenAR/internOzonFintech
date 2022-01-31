@@ -1,7 +1,7 @@
 version: '3.8'
 services:
 
-  postgerDB:
+  postgresDB:
     image: postgres:latest
     container_name: shortUrlPostgresDB
     environment:
@@ -12,15 +12,42 @@ services:
       - "5432"
     ports:
       - "5432:5432"
-    restart: always
+    restart: on-failure
     volumes:
       - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./postgres-data:/var/lib/postgresql
+    profiles:
+      - psql
+
+  main_psql:
+    image: mollenar/short_url_main_psql:latest
+    container_name: short_url_main_psql
+    restart: always
+    network_mode: "host"
+    expose:
+      - 8080
+    depends_on:
+      - postgresDB
+    profiles:
+      - psql
 
   tarantool:
-    image: short_url:latest
+    image: mollenar/short_url_tarantool:latest
     expose:
       - 3302
     ports:
       - 3302:3302
     container_name: ShortUrlTarantool
+    profiles:
+      - tarantool
+
+  main_tarantool:
+    image: mollenar/short_url_main_tarantool:latest
+    restart: always
+    network_mode: "host"
+    depends_on:
+      - tarantool
+    expose:
+      - 8081
+    profiles:
+      - tarantool
