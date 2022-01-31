@@ -33,8 +33,6 @@ func Run(addres string, dbConn interface{}) error {
 	default:
 		return errors.New("wrong bd type")
 	}
-	// chosenRepo := postgreSQL.NewPsqlRepo(psqlDb)
-	// chosenRepo := tRepo.NewTarantoolRepo(tarantoolConn)
 
 	shortUrlUsecase := usecase.NewShortUrlUsecase(chosenRepo)
 

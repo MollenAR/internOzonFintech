@@ -30,9 +30,9 @@ func (shurlHandler *ShortUrlHandler) SaveOriginalUrl(c echo.Context) error {
 
 	err = validation.ValidateOriginalUrl(originalUrl.Url)
 	if err != nil {
-		return errors.Wrap(errorTypes.ErrWrongOriginalUrl{
+		return errorTypes.ErrWrongOriginalUrl{
 			Reason: err.Error(),
-		}, "")
+		}
 	}
 
 	ctx := c.Request().Context()
